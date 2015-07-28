@@ -1,0 +1,17 @@
+<h4>
+  <%= @hand.name %>
+  <br>
+  Total Points - <%= @hand.total %>
+  <br>
+  Round Points - <%= @hand.round %>
+</h4>
+
+
+<%= form_tag "/keep_dice", :method => "put" do %>
+  <% @dice.each do |die| %>
+    <p>
+      <input type="checkbox" value="<%= die.id %>" name="cubes[keep][]"><%= die.face %>
+    </p>
+  <% end %>
+  <input type="submit" value="Keep these dice">
+<% end %>
