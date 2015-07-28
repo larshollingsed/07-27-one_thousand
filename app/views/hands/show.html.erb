@@ -5,13 +5,22 @@
   <br>
   Round Points - <%= @hand.round %>
 </h4>
+<p>
+  Held Dice - <br>
+  <% @dice.where(:held => true).each do |die| %>
+    <%= die.face %>
+  <% end %>
+</p>
 
 
 <%= form_tag "/keep_dice", :method => "put" do %>
-  <% @dice.each do |die| %>
+  <% @dice.where(:held => false).each do |die| %>
     <p>
       <input type="checkbox" value="<%= die.id %>" name="cubes[keep][]"><%= die.face %>
     </p>
   <% end %>
   <input type="submit" value="Keep these dice">
 <% end %>
+
+<a href="/new_roll">New Roll</a><br>
+<a href="/roll_dice">Roll Dice</a><br>

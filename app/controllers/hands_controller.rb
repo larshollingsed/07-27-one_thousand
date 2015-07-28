@@ -3,4 +3,16 @@ class HandsController < ApplicationController
     @hand = Hand.first
     @dice = Cube.all
   end
+  
+  def roll_dice
+    Hand.first.roll_dice
+    redirect_to hand_path(1)
+  end
+  
+  def new_roll
+    Hand.first.new_roll
+    Hand.first.roll_dice
+    redirect_to hand_path(1)
+  end
+  
 end
