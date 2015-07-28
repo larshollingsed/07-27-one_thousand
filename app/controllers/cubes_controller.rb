@@ -5,7 +5,8 @@ class CubesController < ApplicationController
     if params[:cubes]
         
       #TODO make sure a submitted round of dice is scorable!!
-      @player.score
+      @player.score(params[:cubes][:keep])
+      @player.save
       params[:cubes][:keep].each do |cube_id|
         Cube.find(cube_id).keep
       end
@@ -13,6 +14,7 @@ class CubesController < ApplicationController
     if @player.cubes.where(:held => false).count == 0
       redirect_to "/new_roll"
     else
+
       redirect_to hand_path(1)
     end
   end

@@ -2,7 +2,6 @@ class Hand < ActiveRecord::Base
   has_many :cubes
   
   def new_roll
-    self.round = 0
     self.save
     Cube.all.order(:id).each do |cube|
       cube.face = nil
@@ -38,20 +37,26 @@ class Hand < ActiveRecord::Base
     self.dice_values
   end
   
-  def dice_values
-    self.show_dice[:free].values
+  def dice_values(dice)
+    values = []
+    Cube.find(dice).each do |die|
+      values << die.face
+    end
+    values
   end
   
-  def score
-    dice = self.dice_values
-    self.straight(dice)
-    self.three_of_kind(dice)
-    self.ones(dice)
-    self.fives(dice)
+  # dice - Array of dice to be scored
+  def score(dice)
+    dice_submitted = self.dice_values(dice)
+    self.straight(dice_submitted)
+    self.three_of_kind(dice_submitted)
+    self.ones(dice_submitted)
+    self.fives(dice_submitted)
   end
   
   def save_score
     self.total += self.round
+    self.round = 0
     self.save
   end
 
