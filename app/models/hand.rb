@@ -10,20 +10,26 @@ class Hand < ActiveRecord::Base
   end
     
   def roll_dice
-    self.cubes.each do |cube|
+    self.cubes.where(:held => false).each do |cube|
       cube.roll
     end
   end
   
   def show_dice
-    dice = {}
+    held_dice = {}
+    free_dice = {}
     Cube.all.order(:id).each do |cube|
-      dice["die#{cube.id}"] = cube.face
+      if cube.held
+        held_dice["die #{cube.id}"] = cube.face
+      else
+        free_dice["die #{cube.id}"] = cube.face
+      end
     end
+    dice = {}
+    dice[:held] = held_dice
+    dice[:free] = free_dice
+
     dice
   end
-  
-  def hold_dice(die)
-    Cube.find(dice).held = true
-  end
+
 end
