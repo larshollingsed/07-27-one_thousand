@@ -46,6 +46,8 @@ class Hand < ActiveRecord::Base
     dice = self.dice_values
     self.straight(dice)
     self.three_of_kind(dice)
+    self.ones(dice)
+    self.fives(dice)
   end
   
   def save_score
@@ -60,9 +62,13 @@ class Hand < ActiveRecord::Base
     end
   end
   
+  def get_by_number(dice)
+    dice.each_with_object(Hash.new(0)) { |face,counts| counts[face] += 1 }
+  end
+  
   def three_of_kind(dice)
-    by_number = dice.each_with_object(Hash.new(0)) { |face,counts| counts[face] += 1 }
-    for x in 2..6
+    by_number = self.get_by_number(dice)
+    for x in [2, 3, 4, 6]
       occurrences = by_number[x]
       if occurrences >= 3
         self.round += x * 100
@@ -80,7 +86,7 @@ class Hand < ActiveRecord::Base
   end
   
   def ones(dice)
-    ones = by_number[1]
+    ones = self.get_by_number(dice)[1]
     if ones == 1
       self.round += 100
     elsif ones == 2
@@ -97,7 +103,29 @@ class Hand < ActiveRecord::Base
         end
       end
     end
-    binding.pry
     self.save
   end
+  
+  def fives(dice)
+    fives = self.get_by_number(dice)[5]
+    if fives == 1
+      self.round += 50
+    elsif fives == 2
+      self.round += 100
+    elsif fives >= 3
+      self.round += 500
+      if fives >= 4
+        self.round += 500
+        if fives >= 5
+          self.round += 1000
+          if fives >= 6 
+            self.round += 2000
+          end
+        end
+      end
+    end
+    self.save
+  end
+  
+  
 end

@@ -15,4 +15,10 @@ class HandsController < ApplicationController
     redirect_to hand_path(1)
   end
   
+  def save_score
+    Hand.first.save_score
+    Hand.first.new_roll
+    Hand.first.roll_dice
+    redirect_to hand_path(1)
+  end
 end

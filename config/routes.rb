@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   get "/new_roll" => "hands#new_roll"
   
   get "/roll_dice" => "hands#roll_dice"
+  
+  get "/save_score" => "hands#save_score"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
