@@ -1,6 +1,8 @@
 class Hand < ActiveRecord::Base
   has_many :cubes
   
+  # Resets all cubes to zero and held to false
+  # Adds all(6) cubes to Hand(useful later when making this multiplayer)
   def new_roll
     self.save
     Cube.all.order(:id).each do |cube|
@@ -10,12 +12,15 @@ class Hand < ActiveRecord::Base
     end
   end
     
+  # rolls all cubes that aren't held
   def roll_dice
     self.cubes.where(:held => false).each do |cube|
       cube.roll
     end
   end
   
+  # Sorts dice into :held and :free Hashes then puts in an Array
+  # Returns an Array containing two Hashes of Cube objects
   def show_dice
     held_dice = {}
     free_dice = {}
@@ -32,11 +37,9 @@ class Hand < ActiveRecord::Base
     dice
   end
   
-  def roll_and_show
-    self.roll_dice
-    self.dice_values
-  end
-  
+  # Gets the face values of all dice submitted
+  # dice is an Array of dice_id's
+  # Returns an Array of cube.face (Integers)
   def dice_values(dice)
     values = []
     Cube.find(dice).each do |die|
@@ -45,6 +48,8 @@ class Hand < ActiveRecord::Base
     values
   end
   
+  # Runs through the different ways to score
+  # TODO add self.save here instead of scoring methods!!
   # dice - Array of dice to be scored
   def score(dice)
     dice_submitted = self.dice_values(dice)
@@ -54,12 +59,16 @@ class Hand < ActiveRecord::Base
     self.fives(dice_submitted)
   end
   
+  # Saves round score to total score and resets round score
+  # Returns self
   def save_score
     self.total += self.round
     self.round = 0
     self.save
   end
 
+  # Scores 1500 if a 1-6 straight is submitted
+  # TODO take the 'dice' parameter out of all scoring methods
   def straight(dice)
     if ([1, 2, 3, 4, 5, 6] - dice) == []
       self.round += 1500
@@ -67,10 +76,14 @@ class Hand < ActiveRecord::Base
     end
   end
   
+  # gets an organized Array of dice and how many of each was rolled
+  # dice is an Array of cube.face Integers
+  # Returns a Hash of values and their occurrences in the submitted dice
   def get_by_number(dice)
     dice.each_with_object(Hash.new(0)) { |face,counts| counts[face] += 1 }
   end
   
+  # scores for 3+ of a kind for 2, 3, 4, and 6 (same scoring scale)
   def three_of_kind(dice)
     by_number = self.get_by_number(dice)
     for x in [2, 3, 4, 6]
@@ -90,6 +103,7 @@ class Hand < ActiveRecord::Base
     end
   end
   
+  #scores for 1s
   def ones(dice)
     ones = self.get_by_number(dice)[1]
     if ones == 1
@@ -111,6 +125,7 @@ class Hand < ActiveRecord::Base
     self.save
   end
   
+  # scores for 5s
   def fives(dice)
     fives = self.get_by_number(dice)[5]
     if fives == 1
