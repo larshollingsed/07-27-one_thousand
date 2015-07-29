@@ -35,7 +35,7 @@ class CubesController < ApplicationController
       
           # if no dice were submitted, redirects back to same roll page  
         else
-          redirect_to hand_path(@player.id)
+          redirect_to "/roll_dice"
         end
       end
     end
