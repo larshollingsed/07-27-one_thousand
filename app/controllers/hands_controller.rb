@@ -35,9 +35,19 @@ class HandsController < ApplicationController
   end
   
   def save_score
+    # adds round score to total(permanent) score and sets round score to 0
     @player.save_score
+    
+    # changes players and sets new @player
+    change_player
+    
+    # resets all cubes and adds them to player
     @player.new_roll
+    
+    # rolls non-held dice (which is all of them)
     @player.roll_dice
+    
+    # redirects to show
     redirect_to hand_path(@player.id)
   end
   
@@ -45,6 +55,15 @@ class HandsController < ApplicationController
   
   def set_player
     @player = Hand.find(session[:id])
+  end
+  
+  def change_player
+    if session[:id] == 1
+      session[:id] = 2
+    elsif session[:id] == 2
+      session[:id] = 1
+    end
+    set_player
   end
   
 end
