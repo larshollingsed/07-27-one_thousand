@@ -1,4 +1,5 @@
 class HandsController < ApplicationController
+  before_action :set_player, except: [:new_game, :index]
   
   def new_game
     @player1 = Hand.find(1)
@@ -12,36 +13,38 @@ class HandsController < ApplicationController
     
     @player1.save
     @player2.save
-    redirect to hand_path(@player1.id)
+    session[:id] = 1
+    redirect_to hand_path(@player1.id)
   end
   
   def show
-    @hand = Hand.first
+    @hand = @player
     @dice = Cube.all
+    @hands = Hand.all
   end
   
   def roll_dice
-    Hand.first.roll_dice
-    redirect_to hand_path(1)
+    @player.roll_dice
+    redirect_to hand_path(@player.id)
   end
   
   def new_roll
-    Hand.first.new_roll
-    Hand.first.roll_dice
-    redirect_to hand_path(1)
+    @player.new_roll
+    @player.roll_dice
+    redirect_to hand_path(@player.id)
   end
   
   def save_score
-    Hand.first.save_score
-    Hand.first.new_roll
-    Hand.first.roll_dice
-    redirect_to hand_path(1)
+    @player.save_score
+    @player.new_roll
+    @player.roll_dice
+    redirect_to hand_path(@player.id)
   end
   
   private
   
-  def get_player
-    
+  def set_player
+    @player = Hand.find(session[:id])
   end
   
 end

@@ -28,3 +28,9 @@
 <a href="/new_roll">New Roll</a><br>
 <a href="/roll_dice">Roll Dice</a><br>
 <a href="/save_score">Save Score</a><br>
+
+<% @hands.each do |hand| %>
+  <p>
+    <%= hand.name %> - <%= hand.total %>
+  </p>
+<% end %>

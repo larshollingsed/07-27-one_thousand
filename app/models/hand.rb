@@ -50,7 +50,7 @@ class Hand < ActiveRecord::Base
   
   # Runs through the different ways to score
   # TODO add self.save here instead of scoring methods!!
-  # dice - Array of dice to be scored
+  # dice - Array of dice_ids (!!!) to be scored
   def score(dice)
     dice_submitted = self.dice_values(dice)
     self.straight(dice_submitted)
