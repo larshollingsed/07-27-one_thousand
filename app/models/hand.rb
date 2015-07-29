@@ -10,6 +10,8 @@ class Hand < ActiveRecord::Base
       cube.held = false
       self.cubes << cube
     end
+    
+    # TODO check to see if new roll is unscorable
   end
     
   # rolls all cubes that aren't held

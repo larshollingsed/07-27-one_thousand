@@ -47,7 +47,7 @@ class HandsController < ApplicationController
     # rolls non-held dice (which is all of them)
     @player.roll_dice
     
-    # redirects to show
+    # redirects to show 
     redirect_to hand_path(@player.id)
   end
   
