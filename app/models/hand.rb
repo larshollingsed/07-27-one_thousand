@@ -55,10 +55,12 @@ class Hand < ActiveRecord::Base
   # dice - Array of dice_ids (!!!) to be scored
   def score(dice)
     dice_submitted = self.dice_values(dice)
-    self.straight(dice_submitted)
-    self.three_of_kind(dice_submitted)
-    self.ones(dice_submitted)
-    self.fives(dice_submitted)
+    if self.straight(dice_submitted)
+    else
+      self.three_of_kind(dice_submitted)
+      self.ones(dice_submitted)
+      self.fives(dice_submitted)
+    end
   end
   
   # Saves round score to total score and resets round score
@@ -108,6 +110,7 @@ class Hand < ActiveRecord::Base
   #scores for 1s
   def ones(dice)
     ones = self.get_by_number(dice)[1]
+
     if ones == 1
       self.round += 100
     elsif ones == 2
