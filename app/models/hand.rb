@@ -64,6 +64,15 @@ class Hand < ActiveRecord::Base
     end
   end
   
+  def new_roll_scorable?(dice)
+    starting_points = self.round
+    score(dice)
+    if self.round > starting_points
+      self.round = starting_points
+      self.save
+    end
+  end
+  
   # Saves round score to total score and resets round score
   # Returns self
   def save_score

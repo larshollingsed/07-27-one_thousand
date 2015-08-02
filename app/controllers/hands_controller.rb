@@ -31,7 +31,11 @@ class HandsController < ApplicationController
   def new_roll
     @player.new_roll
     @player.roll_dice
-    redirect_to hand_path(@player.id)
+    if @player.new_roll_scorable?([1, 2, 3, 4, 5, 6]) != true
+      redirect_to "/new_roll"
+    else
+      redirect_to hand_path(@player.id)
+    end
   end
   
   def save_score
