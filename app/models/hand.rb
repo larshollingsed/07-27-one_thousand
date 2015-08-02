@@ -56,6 +56,7 @@ class Hand < ActiveRecord::Base
   def score(dice)
     dice_submitted = self.dice_values(dice)
     if self.straight(dice_submitted)
+    elsif three_pairs(dice_submitted)
     else
       self.three_of_kind(dice_submitted)
       self.ones(dice_submitted)
@@ -85,6 +86,12 @@ class Hand < ActiveRecord::Base
   # Returns a Hash of values and their occurrences in the submitted dice
   def get_by_number(dice)
     dice.each_with_object(Hash.new(0)) { |face,counts| counts[face] += 1 }
+  end
+  
+  def three_pairs(dice)
+    if self.get_by_number(dice).values == [2, 2, 2]
+      self.round += 750
+    end
   end
   
   # scores for 3+ of a kind for 2, 3, 4, and 6 (same scoring scale)
