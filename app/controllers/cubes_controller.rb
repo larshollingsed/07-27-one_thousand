@@ -23,19 +23,24 @@ class CubesController < ApplicationController
         # if they did score then this updates the player's round points  
       else
         @player.save
+
+        if params[:cubes][:score_and_save]
+          redirect_to "/save_score"
+        else
         
         # holds dice that were scored
         # sets cubes.held to True (not to be rolled in the next round)
-        params[:cubes][:keep].each do |cube_id|
-          Cube.find(cube_id).keep
-        end
-        
-        if @player.cubes.where(:held => false).count == 0
-          redirect_to "/new_roll"
-      
-          # if no dice were submitted, redirects back to same roll page  
-        else
-          redirect_to "/roll_dice"
+          params[:cubes][:keep].each do |cube_id|
+            Cube.find(cube_id).keep
+          end
+          
+          if @player.cubes.where(:held => false).count == 0
+            redirect_to "/new_roll"
+          
+            # if no dice were submitted, redirects back to same roll page  
+          else
+            redirect_to "/roll_dice"
+          end
         end
       end
     end
