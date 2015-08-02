@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  resources :cubes, :hands
+  resources :cubes
+  resources :hands
   
   put "/keep_dice" => "cubes#keep"
   
