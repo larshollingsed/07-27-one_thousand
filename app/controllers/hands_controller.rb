@@ -23,7 +23,10 @@ class HandsController < ApplicationController
     @hands = Hand.all
     
     if @player.scorable?(Cube.where(:held => false).ids) != true
-      @notice = "UNSCORABLE!!"
+      @player.round = 0
+      @player.save
+      change_player
+      @notice = "UNSCORABLE - click 'New Roll'"
     end
   end
   
