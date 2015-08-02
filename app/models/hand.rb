@@ -64,7 +64,9 @@ class Hand < ActiveRecord::Base
     end
   end
   
-  def new_roll_scorable?(dice)
+  # Checks to see if the submitted dice are capable of scoring
+  # Returns True if they can score, False if they can't
+  def scorable?(dice)
     starting_points = self.round
     score(dice)
     if self.round > starting_points

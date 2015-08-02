@@ -21,6 +21,10 @@ class HandsController < ApplicationController
     @hand = @player
     @dice = Cube.all
     @hands = Hand.all
+    
+    if @player.scorable?(Cube.where(:held => false).ids) != true
+      @notice = "UNSCORABLE!!"
+    end
   end
   
   def roll_dice
@@ -31,7 +35,7 @@ class HandsController < ApplicationController
   def new_roll
     @player.new_roll
     @player.roll_dice
-    if @player.new_roll_scorable?([1, 2, 3, 4, 5, 6]) != true
+    if @player.scorable?([1, 2, 3, 4, 5, 6]) != true
       redirect_to "/new_roll"
     else
       redirect_to hand_path(@player.id)
