@@ -8,26 +8,19 @@
   <br>
   Round Points - <%= @hand.round %>
 </h4>
-<p>
-  Held Dice - <br>
-  <% @dice.where(:held => true).each do |die| %>
-    <%= die.face %>
-  <% end %>
-</p>
-
 
 <%= form_tag "/keep_dice", :id => "dice_form", :method => "put" do %>
   <% @dice.where(:held => false).each do |die| %>
-    <p>
-      <input type="checkbox" value="<%= die.id %>" name="cubes[keep][]"><%= die.face %>
-    </p>
+      <input type="checkbox" value="<%= die.id %>" name="cubes[keep][]"><ima><%= image_tag (die.face_image) %>
   <% end %>
   <input type="checkbox" name="cubes[score_and_save]" id="bank_checkbox" class="hidden">
-
-  <input type="submit" value="Keep these dice">
+  <p>
+    <input type="submit" value="Keep these dice and roll again">
+  </p>
 <% end %>
-
-  <button id="bank">Bank and Pass</button>
+  <p>
+    <button id="bank">Bank and Pass</button>
+  </p>
   <br>
   <br>
 
