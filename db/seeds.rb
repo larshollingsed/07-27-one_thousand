@@ -8,9 +8,4 @@
 
 Hand.create
 Hand.create
-Cube.create
-Cube.create
-Cube.create
-Cube.create
-Cube.create
-Cube.create
+6.times {Cube.create}

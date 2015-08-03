@@ -1,5 +1,6 @@
 class CubesController < ApplicationController
   before_action :set_player
+  
   def keep
     # checks to see if any cubes were submitted(checked)
     if params[:cubes]
@@ -28,21 +29,23 @@ class CubesController < ApplicationController
           redirect_to "/save_score"
         else
         
-        # holds dice that were scored
-        # sets cubes.held to True (not to be rolled in the next round)
+          # holds dice that were scored
+          # sets cubes.held to True (not to be rolled in the next round)
           params[:cubes][:keep].each do |cube_id|
             Cube.find(cube_id).keep
           end
           
+          # if all cubes have been used to score, re-rolls all six
           if @player.cubes.where(:held => false).count == 0
             redirect_to "/new_roll"
-          
-            # if no dice were submitted, redirects back to same roll page  
           else
             redirect_to "/roll_dice"
           end
         end
       end
+      # if no dice were submitted, redirects back to same roll page  
+    else
+      redirect_to hand_path(@player.id)
     end
   end
   
