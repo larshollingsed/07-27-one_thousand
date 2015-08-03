@@ -13,7 +13,7 @@
   <% @dice.where(:held => false).each do |die| %>
       <input type="checkbox" value="<%= die.id %>" name="cubes[keep][]" id="die<%= die.id %>"><label for="die<%= die.id %>"><%= image_tag (die.face_image) %></label>
   <% end %>
-  <input type="checkbox" name="cubes[score_and_save]" id="bank_checkbox" class="hidden">
+  <input type="checkbox" name="cubes[score_and_save]" id="bank_checkbox">
   <p>
     <input type="submit" value="Keep these dice and roll again">
   </p>

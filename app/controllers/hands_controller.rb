@@ -46,20 +46,21 @@ class HandsController < ApplicationController
   end
   
   def save_score
-    # adds round score to total(permanent) score and sets round score to 0
-    @player.save_score
-    
-    # changes players and sets new @player
-    change_player
-    
-    # resets all cubes and adds them to player
-    @player.new_roll
-    
-    # rolls non-held dice (which is all of them)
-    @player.roll_dice
-    
-    # redirects to show 
-    redirect_to hand_path(@player.id)
+    if @player.save_score 
+      # adds round score to total(permanent) score and sets round score to 0
+      
+      # changes players and sets new @player
+      change_player
+      
+      # resets all cubes and adds them to player
+      @player.new_roll
+      
+      # rolls non-held dice (which is all of them)
+      @player.roll_dice
+    end
+      # redirects to show 
+      redirect_to hand_path(@player.id)
+      
   end
   
   private

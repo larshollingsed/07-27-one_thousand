@@ -27,7 +27,7 @@ class CubesController < ApplicationController
 
         # if the player decided to stop after this round, this redirects to 
         # save their round score and turn over the dice to the next player
-        if params[:cubes][:score_and_save]
+        if params[:cubes][:score_and_save] && @player.round >= 350
           redirect_to "/save_score"
         else
         

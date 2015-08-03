@@ -78,9 +78,13 @@ class Hand < ActiveRecord::Base
   # Saves round score to total score and resets round score
   # Returns self
   def save_score
-    self.total += self.round
-    self.round = 0
-    self.save
+    if self.round >= 350
+      self.total += self.round
+      self.round = 0
+      self.save
+    # else
+    #   return false
+    end
   end
 
   # Scores 1500 if a 1-6 straight is submitted
