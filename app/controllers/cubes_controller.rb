@@ -25,6 +25,8 @@ class CubesController < ApplicationController
       else
         @player.save
 
+        # if the player decided to stop after this round, this redirects to 
+        # save their round score and turn over the dice to the next player
         if params[:cubes][:score_and_save]
           redirect_to "/save_score"
         else
@@ -38,6 +40,8 @@ class CubesController < ApplicationController
           # if all cubes have been used to score, re-rolls all six
           if @player.cubes.where(:held => false).count == 0
             redirect_to "/new_roll"
+            
+          # if free dice are still left, rolls those
           else
             redirect_to "/roll_dice"
           end
