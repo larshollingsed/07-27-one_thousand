@@ -2,3 +2,16 @@
   visibility: hidden;
   display: none;
 }
+
+input[type=checkbox] {
+display:none;
+}
+
+input[type=checkbox]:checked + label
+{
+background: #0080FF;
+height: 112px;
+width: 112px;
+display:inline-block;
+padding: 0 0 0 0px;
+}

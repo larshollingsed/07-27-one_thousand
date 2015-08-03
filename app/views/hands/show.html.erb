@@ -11,7 +11,7 @@
 
 <%= form_tag "/keep_dice", :id => "dice_form", :method => "put" do %>
   <% @dice.where(:held => false).each do |die| %>
-      <input type="checkbox" value="<%= die.id %>" name="cubes[keep][]"><ima><%= image_tag (die.face_image) %>
+      <input type="checkbox" value="<%= die.id %>" name="cubes[keep][]" id="die<%= die.id %>"><label for="die<%= die.id %>"><%= image_tag (die.face_image) %></label>
   <% end %>
   <input type="checkbox" name="cubes[score_and_save]" id="bank_checkbox" class="hidden">
   <p>
