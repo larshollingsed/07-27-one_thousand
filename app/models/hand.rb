@@ -105,10 +105,10 @@ class Hand < ActiveRecord::Base
     end
   end
   
-  # scores for 3+ of a kind for 2, 3, 4, and 6 (same scoring scale)
+  # scores for 3+ of a kind for 2, 3, 4, 5, and 6 (same scoring scale for multiples)
   def three_of_kind(dice)
     by_number = self.get_by_number(dice)
-    for x in [2, 3, 4, 6]
+    for x in [2, 3, 4, 5, 6]
       occurrences = by_number[x]
       if occurrences >= 3
         self.round += x * 100
@@ -155,17 +155,6 @@ class Hand < ActiveRecord::Base
       self.round += 50
     elsif fives == 2
       self.round += 100
-    elsif fives >= 3
-      self.round += 500
-      if fives >= 4
-        self.round += 500
-        if fives >= 5
-          self.round += 1000
-          if fives >= 6 
-            self.round += 2000
-          end
-        end
-      end
     end
     self.save
   end
