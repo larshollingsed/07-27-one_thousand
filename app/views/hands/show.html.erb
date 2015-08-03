@@ -1,5 +1,5 @@
 <h3>
-  <%= @notice %>
+  <%= @notice %> <a href="/new_roll">New Roll</a><br>
 </h3>
 <h4>
   <%= @hand.name %>
@@ -16,21 +16,24 @@
 </p>
 
 
-<%= form_tag "/keep_dice", :method => "put" do %>
+<%= form_tag "/keep_dice", :id => "dice_form", :method => "put" do %>
   <% @dice.where(:held => false).each do |die| %>
     <p>
       <input type="checkbox" value="<%= die.id %>" name="cubes[keep][]"><%= die.face %>
     </p>
   <% end %>
-  <p>
-    <input type="checkbox" name="cubes[score_and_save]"> - Score and pass
-  </p>
+  <input type="checkbox" name="cubes[score_and_save]" id="bank_checkbox" class="hidden">
+
   <input type="submit" value="Keep these dice">
 <% end %>
 
+  <button id="bank">Bank and Pass</button>
+  <br>
+  <br>
+
 <a href="/new_roll">New Roll</a><br>
 <a href="/roll_dice">Roll Dice <-- rerolls currently free dice - not a real option</a><br>
-<a href="/save_score">Save Score</a><br>
+<a href="/save_score">Save Score <-- saves current round score - not a real option</a><br>
 
 <% @hands.each do |hand| %>
   <p>

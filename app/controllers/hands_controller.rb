@@ -26,7 +26,7 @@ class HandsController < ApplicationController
       @player.round = 0
       @player.save
       change_player
-      @notice = "UNSCORABLE - click 'New Roll'"
+      @notice = "UNSCORABLE - pass to next player -- " 
     end
   end
   

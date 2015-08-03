@@ -99,6 +99,8 @@ class Hand < ActiveRecord::Base
     dice.each_with_object(Hash.new(0)) { |face,counts| counts[face] += 1 }
   end
   
+  
+  # scores for three pairs (four of a kind != two pairs)
   def three_pairs(dice)
     if self.get_by_number(dice).values == [2, 2, 2]
       self.round += 750
@@ -128,7 +130,6 @@ class Hand < ActiveRecord::Base
   #scores for 1s
   def ones(dice)
     ones = self.get_by_number(dice)[1]
-
     if ones == 1
       self.round += 100
     elsif ones == 2
@@ -148,7 +149,7 @@ class Hand < ActiveRecord::Base
     self.save
   end
   
-  # scores for 5s
+  # scores for one or two 5s
   def fives(dice)
     fives = self.get_by_number(dice)[5]
     if fives == 1
@@ -158,6 +159,5 @@ class Hand < ActiveRecord::Base
     end
     self.save
   end
-  
   
 end
