@@ -1,5 +1,6 @@
 class Hand < ActiveRecord::Base
   has_many :cubes
+  accepts_nested_attributes_for :cubes
   
   # Resets all cubes to zero and held to false
   # Adds all(6) cubes to Hand(useful later when making this multiplayer)

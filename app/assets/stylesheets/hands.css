@@ -3,9 +3,9 @@
   display: none;
 }
 
-input[type=checkbox] {
+/*input[type=checkbox] {
 display:none;
-}
+}*/
 
 input[type=checkbox]:checked + label
 {

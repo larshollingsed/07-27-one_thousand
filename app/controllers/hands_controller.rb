@@ -33,7 +33,7 @@ class HandsController < ApplicationController
   end
   
   def potential_score
-    @player.score(params[:cubes][:keep])
+    json @player.score_dice(params[:cubes][:keep])
   end
   
   def roll_dice
@@ -66,7 +66,6 @@ class HandsController < ApplicationController
     end
       # redirects to show 
       redirect_to hand_path(@player.id)
-      
   end
   
   private

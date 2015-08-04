@@ -8,11 +8,26 @@
   <br>
   Round Points - <%= @hand.round %>
 </h4>
+
+<%= form_for(@hand, remote: true) do |f| %>
+
+  <%= f.fields_for(:cubes) do |d| %>
+  
+    <%# image_tag(d.object.face_image) %>
+    <%= d.label :id, image_tag(d.object.face_image) %>
+    <%= d.check_box :id %>
+    
+  <% end %>
+  
+  <%= f.submit %>
+<% end %>
+
+
 <h5 id="potential_score">
 </h5>
 <button id="potential_button">See potential score</button>
 
-<%= form_tag "/keep_dice", :id => "dice_form", :method => "put" do %>
+<%= form_tag "/keep_dice", :id => "dice_form", :method => "put", :remote => true do %>
   <% @dice.where(:held => false).each do |die| %>
       <input type="checkbox" value="<%= die.id %>" name="cubes[keep][]" id="die<%= die.id %>"><label for="die<%= die.id %>"><%= image_tag (die.face_image) %></label>
   <% end %>

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   
   post "/new_game" => "hands#new_game"
   
-  post "/potential_score" => "hands#potential_score"
+  get "/potential_score" => "hands#potential_score"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
