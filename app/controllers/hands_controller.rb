@@ -22,7 +22,9 @@ class HandsController < ApplicationController
     @dice = Cube.all
     @hands = Hand.all.order(:id)
     
-    if @player.scorable?(Cube.where(:held => false).ids) == nil
+    
+    ## TODO needs to be moved (possibly AJAX?)
+    if !@player.scorable?(Cube.where(:held => false).ids)
       @player.round = 0
       @player.save
       change_player
@@ -31,9 +33,7 @@ class HandsController < ApplicationController
   end
   
   def potential_score
-    # score = self.scorable?(params[:cubes][:keep])
-    # json score
-    500
+    @player.score(params[:cubes][:keep])
   end
   
   def roll_dice
@@ -44,10 +44,10 @@ class HandsController < ApplicationController
   def new_roll
     @player.new_roll
     @player.roll_dice
-    if @player.scorable?([1, 2, 3, 4, 5, 6]) == nil
-      redirect_to "/new_roll"
-    else
+    if @player.scorable?([1, 2, 3, 4, 5, 6])
       redirect_to hand_path(@player.id)
+    else
+      redirect_to "/new_roll"
     end
   end
   
