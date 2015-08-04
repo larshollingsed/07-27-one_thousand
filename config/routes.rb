@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :cubes
-  resources :hands
+  resources :hands do
+    member do
+      get "potential_score"
+    end
+  end
   
   put "/keep_dice" => "cubes#keep"
   
@@ -12,7 +16,7 @@ Rails.application.routes.draw do
   
   post "/new_game" => "hands#new_game"
   
-  get "/potential_score" => "hands#potential_score"
+  patch "/potential_score" => "hands#potential_score"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -33,7 +33,9 @@ class HandsController < ApplicationController
   end
   
   def potential_score
-    json @player.score_dice(params[:cubes][:keep])
+    if params[:cubes]
+      @points = @player.score_dice(params[:cubes][:keep])
+    end
   end
   
   def roll_dice
