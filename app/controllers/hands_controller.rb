@@ -20,14 +20,20 @@ class HandsController < ApplicationController
   def show
     @hand = @player
     @dice = Cube.all
-    @hands = Hand.all
+    @hands = Hand.all.order(:id)
     
-    if @player.scorable?(Cube.where(:held => false).ids) != true
+    if @player.scorable?(Cube.where(:held => false).ids) == nil
       @player.round = 0
       @player.save
       change_player
       @notice = "UNSCORABLE - pass to next player -- " 
     end
+  end
+  
+  def potential_score
+    # score = self.scorable?(params[:cubes][:keep])
+    # json score
+    500
   end
   
   def roll_dice
@@ -38,7 +44,7 @@ class HandsController < ApplicationController
   def new_roll
     @player.new_roll
     @player.roll_dice
-    if @player.scorable?([1, 2, 3, 4, 5, 6]) != true
+    if @player.scorable?([1, 2, 3, 4, 5, 6]) == nil
       redirect_to "/new_roll"
     else
       redirect_to hand_path(@player.id)

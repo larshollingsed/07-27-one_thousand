@@ -69,22 +69,20 @@ class Hand < ActiveRecord::Base
   def scorable?(dice)
     starting_points = self.round
     score(dice)
+    potential_score = self.round
     if self.round > starting_points
       self.round = starting_points
       self.save
+      potential_score
     end
   end
   
   # Saves round score to total score and resets round score
   # Returns self
   def save_score
-    if self.round >= 350
-      self.total += self.round
-      self.round = 0
-      self.save
-    # else
-    #   return false
-    end
+    self.total += self.round
+    self.round = 0
+    self.save
   end
 
   # Scores 1500 if a 1-6 straight is submitted

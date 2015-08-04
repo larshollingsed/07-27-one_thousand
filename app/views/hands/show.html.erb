@@ -8,6 +8,9 @@
   <br>
   Round Points - <%= @hand.round %>
 </h4>
+<h5 id="potential_score">
+</h5>
+<button id="potential_button">See potential score</button>
 
 <%= form_tag "/keep_dice", :id => "dice_form", :method => "put" do %>
   <% @dice.where(:held => false).each do |die| %>
