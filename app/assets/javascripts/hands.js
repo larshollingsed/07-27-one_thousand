@@ -5,11 +5,12 @@ window.onload = function() {
     document.getElementById("bank_checkbox").checked = true;
     document.getElementById("dice_form").submit();
   }
-
+  // every time a checkbox is checked, the potential points status is updated 
   var checkboxes = $(".cube_checkbox");
   for(var x = 0; x < checkboxes.length; x++){
     checkboxes[x].onclick = potential;
   }
+  
   document.getElementById("potential_button").onclick = potential;
   
   function potential() {
